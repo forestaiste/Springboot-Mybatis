@@ -23,7 +23,7 @@ public class HelloController {
     }
 
     @RequestMapping("hi")
-    public String hi() {
+    public String hi() throws Exception{
         service.hi();
 
         return "OK";

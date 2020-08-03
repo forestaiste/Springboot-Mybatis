@@ -1,15 +1,19 @@
 package com.forest.springbootmybatis.services;
 
+
+import com.forest.springbootmybatis.beans.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class AsyncService {
 
     @Autowired
+    @Qualifier("redisTemplate")
     private RedisTemplate redisTemplate;
 
     @Async
@@ -38,5 +42,13 @@ public class AsyncService {
         redisTemplate.opsForValue().set("mykey", "Forest Gump");
 
         System.out.println(redisTemplate.opsForValue().get("mykey"));
+
+        User user = new User("森林里的水凼凼", 28);
+        //String json = new ObjectMapper().writeValueAsString(user);
+
+        redisTemplate.opsForValue().set("user", user);
+
+        User user1 = (User)redisTemplate.opsForValue().get("user");
+        System.out.println(user1);
     }
 }
